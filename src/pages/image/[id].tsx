@@ -64,8 +64,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params?.id;
   if (!id) {
     return {
-      notFound: true,
-      revalidate: 60*10 // 10 minutes
+      notFound: true
     };
   }
 
