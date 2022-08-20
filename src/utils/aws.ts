@@ -2,10 +2,10 @@ import AWS from "aws-sdk";
 import { PutObjectRequest } from "aws-sdk/clients/s3";
 import { v4 as uuid } from "uuid";
 
-AWS.config.update({ 
+AWS.config.update({
   region: process.env.AWS_LOCATION,
   accessKeyId: process.env.AWS_KEY,
-  secretAccessKey: process.env.AWS_SECRET
+  secretAccessKey: process.env.AWS_SECRET,
 });
 
 const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
@@ -25,5 +25,5 @@ export const uploadFile = async (base64: string): Promise<string> => {
   };
   const { Key } = await s3.upload(params).promise();
 
-  return `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${Key}`;
+  return `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_LOCATION}.amazonaws.com/${Key}`;
 };
