@@ -1,0 +1,43 @@
+{
+  "name": "grid-wall",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@heroicons/react": "^1.0.6",
+    "@prisma/client": "^4.2.1",
+    "@trpc/client": "^9.27.0",
+    "@trpc/next": "^9.27.0",
+    "@trpc/react": "^9.27.0",
+    "@trpc/server": "^9.27.0",
+    "aws-sdk": "^2.1198.0",
+    "daisyui": "^2.24.0",
+    "next": "12.2.5",
+    "next-auth": "^4.10.3",
+    "react": "18.2.0",
+    "react-autocomplete-hint": "^2.0.0",
+    "react-dom": "18.2.0",
+    "react-query": "^3.39.2",
+    "superjson": "^1.9.1",
+    "uuid": "^8.3.2",
+    "zod": "^3.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.7.6",
+    "@types/react": "18.0.17",
+    "@types/react-dom": "18.0.6",
+    "@types/uuid": "^8.3.4",
+    "autoprefixer": "^10.4.8",
+    "eslint": "8.22.0",
+    "eslint-config-next": "12.2.5",
+    "postcss": "^8.4.16",
+    "prisma": "^4.2.1",
+    "tailwindcss": "^3.1.8",
+    "typescript": "4.7.4"
+  }
+}
