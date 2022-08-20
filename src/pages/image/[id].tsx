@@ -2,6 +2,7 @@ import { prisma } from "@/utils/prisma";
 import { LocationMarkerIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import { GetStaticProps, GetStaticPaths, NextPage } from "next";
+import Head from "next/head";
 
 type ImageDetail = {
   id: number;
@@ -19,6 +20,9 @@ type Props = {
 const ImageDetailPage: NextPage<Props> = ({ image }) => {
   return (
     <div className="flex flex-col md:flex-row h-screen">
+      <Head>
+        <meta name="description" content={image.description} />
+      </Head>
       <div className="flex-1 relative bg-black">
         <Image
           src={image.image}

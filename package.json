@@ -23,6 +23,7 @@
     "react-autocomplete-hint": "^2.0.0",
     "react-dom": "18.2.0",
     "react-query": "^3.39.2",
+    "sharp": "^0.30.7",
     "superjson": "^1.9.1",
     "uuid": "^8.3.2",
     "zod": "^3.18.0"
@@ -31,6 +32,7 @@
     "@types/node": "18.7.6",
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",
+    "@types/sharp": "^0.30.5",
     "@types/uuid": "^8.3.4",
     "autoprefixer": "^10.4.8",
     "eslint": "8.22.0",

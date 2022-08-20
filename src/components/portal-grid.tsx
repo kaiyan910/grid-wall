@@ -12,7 +12,7 @@ import { useEffect } from "react";
 
 const PortalGrid = () => {
   const router = useRouter();
-  const query = trpc.useQuery(["obtain-image"]);
+  const query = trpc.useQuery(["obtain-all-image"]);
   const deleteImageMutation = trpc.useMutation(["delete-image"]);
 
   const onDeleteImage = (id: number) => {
@@ -48,7 +48,7 @@ const PortalGrid = () => {
       {query.data?.map((image) => (
         <div key={image.id} className="group relative min-h-[300px] bg-cover">
           <Image
-            src={image.image}
+            src={image.thumbnail}
             layout="fill"
             alt={image.description}
             objectFit="cover"

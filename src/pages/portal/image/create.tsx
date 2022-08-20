@@ -15,6 +15,7 @@ type ImageCreateProps = {
   source: string;
   tags: { id: number | undefined; name: string }[];
   image: string;
+  thumbnail: string;
 };
 
 type Props = {
@@ -32,6 +33,7 @@ const PortalCreatePage: NextPage<Props> = ({ image }) => {
     source: image?.source ?? "",
     tags: image?.tags.map((tag) => ({ id: tag.id, name: tag.name })) ?? [],
     image: image?.image ?? "",
+    thumbnail: image?.thumbnail ?? ""
   });
 
   const onTextInputChangd = (

@@ -1,4 +1,5 @@
 import { trpc } from "@/utils/trpc";
+import { ViewGridIcon } from "@heroicons/react/solid";
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -7,9 +8,33 @@ const Home: NextPage = () => {
   const router = useRouter();
   const query = trpc.useQuery(["obtain-image"]);
 
+  if (query.isLoading) {
+    return (
+      <div className="h-screen flex items-center justify-center w-full">
+        <ViewGridIcon className="animate-spin" width={50} height={50} />
+      </div>
+    );
+  }
+
+  if (query.data && query.data.length === 0) {
+    return (
+      <div className="h-screen flex flex-col items-center justify-center w-full space-y-8">
+        <div className="flex items-center space-x-2">
+          <ViewGridIcon
+            className="animate-spin base-content"
+            width="12"
+            height="12"
+          />
+          <span className="font-logo text-4xl">Grid Wall</span>
+        </div>
+        <p>未有圖片</p>
+      </div>
+    );
+  }
+
   return (
     <div className="h-screen">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8">
+      <div className="grid grid-cols-1 md:grid-cols-6">
         {query.data?.map((image) => (
           <div
             key={image.id}
@@ -17,7 +42,7 @@ const Home: NextPage = () => {
             onClick={() => router.push(`/image/${image.id}`)}
           >
             <Image
-              src={image.image}
+              src={image.thumbnail}
               layout="fill"
               alt={image.description}
               objectFit="cover"

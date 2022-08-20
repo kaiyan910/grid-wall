@@ -1,4 +1,3 @@
-
 import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
 
@@ -7,6 +6,10 @@ import "../styles/globals.css";
 function App({ Component, pageProps }: AppProps) {
   return (
     <SessionProvider session={pageProps.session}>
+      <Head>
+        <title>Grid Wall</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <Component {...pageProps} />
     </SessionProvider>
   );
@@ -14,6 +17,7 @@ function App({ Component, pageProps }: AppProps) {
 
 import { withTRPC } from "@trpc/next";
 import { AppRouter } from "@/server/routers";
+import Head from "next/head";
 
 function getBaseUrl() {
   if (typeof window) return ""; // Browser should use current path

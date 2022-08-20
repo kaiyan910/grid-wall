@@ -5,8 +5,7 @@ import { Context } from "@/server/context";
 import { prisma } from "@/utils/prisma";
 import { TRPCError } from "@trpc/server";
 import { uploadFile } from "@/utils/aws";
-import { resolve } from "path";
-import PortalTags from "@/components/portal-tags";
+import { resizeImage } from "@/utils";
 
 // declare all endpoint
 // different module should have their own router (i.e. userRouter, imageRouter)
@@ -49,6 +48,26 @@ export const appRouter = trpc
         include: {
           tags: true,
         },
+        take: 24,
+        orderBy: {
+          id: "desc",
+        },
+      });
+    },
+  })
+  // [TO-DO] apply paging for portal
+  .query("obtain-all-image", {
+    meta: {
+      needAuth: true,
+    },
+    async resolve() {
+      return await prisma.image.findMany({
+        include: {
+          tags: true,
+        },
+        orderBy: {
+          id: "desc",
+        },
       });
     },
   })
@@ -83,6 +102,7 @@ export const appRouter = trpc
       description: z.string().min(1),
       source: z.string().min(1),
       image: z.string().min(1),
+      thumbnail: z.string(),
       tags: z
         .object({
           id: z.number().optional(),
@@ -92,9 +112,16 @@ export const appRouter = trpc
         .min(1),
     }),
     async resolve({ ctx, input }) {
-      const image = input.image.startsWith("http")
-        ? input.image
-        : await uploadFile(input.image);
+      const hasNewImage = !input.image.startsWith("http");
+
+      const thumbnailBase64 = hasNewImage
+        ? await resizeImage(input.image)
+        : null;
+      const thumbnail = thumbnailBase64
+        ? await uploadFile(input.image)
+        : input.thumbnail;
+
+      const image = hasNewImage ? await uploadFile(input.image) : input.image;
 
       await prisma.image.update({
         data: {
@@ -102,6 +129,7 @@ export const appRouter = trpc
           description: input.description,
           source: input.source,
           image,
+          thumbnail: thumbnail,
           tags: {
             deleteMany: {},
             connectOrCreate: input.tags.map((tag) => ({
@@ -141,14 +169,17 @@ export const appRouter = trpc
         .min(1),
     }),
     async resolve({ ctx, input }) {
+      const thumbnailBase64 = await resizeImage(input.image);
       const image = await uploadFile(input.image);
+      const thumbnail = await uploadFile(thumbnailBase64);
 
       return await prisma.image.create({
         data: {
           location: input.location,
           description: input.description,
           source: input.source,
-          image: image,
+          image,
+          thumbnail,
           createdBy: ctx.session?.user?.name ?? "admin",
           updatedBy: ctx.session?.user?.name ?? "admin",
           tags: {

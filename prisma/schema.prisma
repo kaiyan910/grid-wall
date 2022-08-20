@@ -16,6 +16,7 @@ model Image {
   description String   @db.Text()
   source      String   @db.VarChar(255)
   image       String   @db.Text()
+  thumbnail   String   @db.Text()
   tags        Tag[]
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
